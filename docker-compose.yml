@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  game24:
+    container_name: game24
+    image: app_game_24
+    ports:
+      - 3200:3000
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - 9999:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: game24
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 12345678
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 7776:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_UPLOAD_MAX_SIZE: 100M
+      PMA_PHP_INI_MEMORY_LIMIT: 128M 
+    depends_on:
+      - mysql

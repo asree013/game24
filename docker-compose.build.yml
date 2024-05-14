@@ -1,0 +1,8 @@
+version: "3.5"
+services:
+  game24:
+    container_name: game24
+    image: app_game_24
+    build: 
+      context: .
+      dockerfile: ./dockerfile
