@@ -9,10 +9,10 @@ datasource db {
 }
 
 model SearchNumber {
-  id String @id() @default(uuid())
-  key_value String @unique
-  count_unit String
+  id             String   @id() @default(uuid())
+  key_value      String   @unique
+  count_unit     String
   compite_result Boolean
-  create_data DateTime @default(now())
-  update_data DateTime @updatedAt
+  create_data    DateTime @default(now())
+  update_data    DateTime @updatedAt
 }

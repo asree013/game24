@@ -1,15 +1,5 @@
 version: '3.5'
 services:
-  game24:
-    container_name: game24
-    image: app_game_24
-    ports:
-      - 3200:3000
-    environment:
-      DATABASE_URL: mysql://admin:12345678@mysql:3306/game24
-    depends_on:
-      - mysql
-
   mysql:
     image: mysql:latest
     ports:
@@ -20,7 +10,6 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: 12345678
 
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -29,5 +18,18 @@ services:
       PMA_ARBITRARY: 1
       PMA_UPLOAD_MAX_SIZE: 100M
       PMA_PHP_INI_MEMORY_LIMIT: 128M 
+    depends_on:
+      - mysql
+
+  game24:
+    container_name: game24
+    image: app_game_24
+    build: 
+      context: .
+      dockerfile: ./dockerfile
+    ports:
+      - 3200:3000
+    environment:
+      DATABASE_URL: mysql://root:12345678@mysql:3306/game24
     depends_on:
       - mysql
