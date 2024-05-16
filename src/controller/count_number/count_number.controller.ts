@@ -1,4 +1,5 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Put } from '@nestjs/common';
+import { SearchNumber } from 'prisma/src/prisma/client';
 import { controllers } from 'src/constants/controller.constant';
 import { service } from 'src/constants/service.constant';
 import { CountNumberService } from 'src/services/count_number/count_number.service';
@@ -8,11 +9,21 @@ export class CountNumberController {
     constructor(@Inject(service.count_number) private readonly service: CountNumberService) {}
 
     @Get(':number')
-    getResultCountNumberAll(@Param('number') number: string) {
-        let arr = number.split('')
-        const nums = arr.map(r => {
-            return parseInt(r)
-        })
-        return this.service.computeNumber(nums)
+    getComputeNumber(@Param('number') number: string) {
+        return this.service.computeNumber(number)
+    }
+
+    @Get()
+    getResultCountNumberAll() {
+        return this.service.findAll()
+    }
+    @Put(':id')
+    editResultCountNumber(@Param('id') id: string, @Body() item: SearchNumber) {
+        return this.service.update(id, item)
+    }
+
+    @Delete(':id')
+    deleteResultCountNumber(@Param('id') id: string) {
+        return this.deleteResultCountNumber(id)
     }
 }

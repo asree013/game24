@@ -5,8 +5,8 @@ import { SearchNumber } from 'prisma/src/prisma/client';
 
 @Injectable()
 export class CountNumberService {
-    constructor(@Inject(service.connect_db)private readonly db: ConnectDbService) {}
-    
+    constructor(@Inject(service.connect_db) private readonly db: ConnectDbService) { }
+
     async findAll(): Promise<SearchNumber[]> {
         try {
             const result = await this.db.searchNumber.findMany()
@@ -54,7 +54,7 @@ export class CountNumberService {
     findByNumber(number: string): Promise<SearchNumber[]> {
         try {
             return this.db.searchNumber.findMany({
-                where:{
+                where: {
                     key_value: number
                 }
             })
@@ -65,10 +65,10 @@ export class CountNumberService {
 
     sumNumber(num: number[]): string {
         const permutations = this.permute(num);
-    
+
         for (const perm of permutations) {
             const [a, b, c, d] = perm;
-    
+
             for (const op1 of ['+', '-', '*', '/']) {
                 for (const op2 of ['+', '-', '*', '/']) {
                     for (const op3 of ['+', '-', '*', '/']) {
@@ -80,13 +80,13 @@ export class CountNumberService {
                 }
             }
         }
-    
+
         return "ไม่พบสมการที่ให้ผลลัพธ์เป็น 24";
     }
-    
+
     permute(ts: number[]): number[][] {
         const result: number[][] = [];
-    
+
         const permuteHelper = (arr: number[], m: number[] = []) => {
             if (arr.length === 0) {
                 result.push(m);
@@ -98,20 +98,25 @@ export class CountNumberService {
                 }
             }
         };
-    
+
         permuteHelper(ts);
-    
+
         return result;
     }
 
-    async computeNumber(number: number[]) {        
+    async computeNumber(number: string) {
+        let arr = number.split('')
+        const nums = arr.map(r => {
+            return parseInt(r)
+        })
+
         try {
-            let tranferNuber = number.join('')
-            const findNumber = await this.findByNumber(tranferNuber)            
-            if(findNumber.length === 0) {
-                const result = await this.sumNumber(number)
+            let tranferNuber = nums.join('')
+            const findNumber = await this.findByNumber(tranferNuber)
+            if (findNumber.length === 0) {
+                const result = await this.sumNumber(nums)
                 const s = {} as SearchNumber
-                if(result.includes("ไม่พบสมการที่ให้ผลลัพธ์เป็น 24")) {
+                if (result.includes("ไม่พบสมการที่ให้ผลลัพธ์เป็น 24")) {
                     s.count_unit = "ไม่พบสมการที่ให้ผลลัพธ์เป็น 24"
                     s.compite_result = false
                     s.key_value = tranferNuber
@@ -121,10 +126,10 @@ export class CountNumberService {
                 s.count_unit = result
                 s.key_value = tranferNuber
                 s.compite_result = true
-                const create = await this.create(s)    
-                return create          
+                const create = await this.create(s)
+                return create
             }
-            else{
+            else {
                 return findNumber[0]
             }
         } catch (error) {

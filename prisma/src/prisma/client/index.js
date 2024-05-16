@@ -134,7 +134,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../../.env"
   },
   "relativePath": "../../..",
@@ -152,8 +152,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/prisma/client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel SearchNumber {\n  id String @id() @default(uuid())\n  key_value String @unique\n  count_unit String\n  compite_result Boolean\n  create_data DateTime @default(now())\n  update_data DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "0137fabc1d1e742d1c29181d17ca143eca320d69aac513dc4fce5b302af732cd",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/prisma/client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel SearchNumber {\n  id             String   @id() @default(uuid())\n  key_value      String   @unique\n  count_unit     String\n  compite_result Boolean\n  create_data    DateTime @default(now())\n  update_data    DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "e70594ad07d3fdff0fa0a85048d7a4147fd88a59f60ae9f52bce381bbd6c7b42",
   "copyEngine": true
 }
 
